@@ -1,6 +1,7 @@
 import { Game } from './game';
 
 window.addEventListener('load', () => {
-    const game = new Game();
+    const context = document.querySelector('canvas').getContext('2d');
+    const game = new Game(context);
     game.run();
 });

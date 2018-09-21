@@ -1,10 +1,6 @@
 export class Game {
 
-    private readonly context: CanvasRenderingContext2D;
-
-    constructor() {
-        this.context = document.querySelector('canvas').getContext('2d');
-    }
+    constructor(private readonly context: CanvasRenderingContext2D) {}
 
     run() {
         this.update();
