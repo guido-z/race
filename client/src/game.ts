@@ -1,6 +1,11 @@
+import { WebSocketClient } from "./web-socket.client";
+
 export class Game {
 
-    constructor(private readonly context: CanvasRenderingContext2D) {}
+    constructor(
+        private readonly context: CanvasRenderingContext2D,
+        private readonly webSocketClient: WebSocketClient
+    ) {}
 
     run() {
         this.update();
