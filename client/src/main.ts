@@ -1,5 +1,5 @@
 import { Game } from './game';
-import { WebSocketClient } from './web-socket.client';
+import { WebSocketClient } from './web-socket/web-socket-client';
 
 window.addEventListener('load', () => {
     try {
