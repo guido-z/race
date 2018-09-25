@@ -1,4 +1,4 @@
-import { WebSocketClient } from "./web-socket.client";
+import { WebSocketClient } from "./web-socket/web-socket-client";
 
 export class Game {
 
