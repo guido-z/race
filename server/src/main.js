@@ -1,7 +1,10 @@
 const io = require('socket.io')();
 
-io.on('connection', client => {
-    
-});
+const server = io.listen(8081);
 
-io.listen(8081);
+io.on('connection', client => {
+    io.to(client.conn.id).emit('requestName');
+    
+    client.on('sendName', ([message]) => {        
+    });
+});
