@@ -1,5 +1,6 @@
-import { WebSocketClient } from "./web-socket/web-socket-client";
-import { Player } from "./models/player";
+import { WebSocketClient } from './web-socket/web-socket-client';
+import { Player } from './models/player';
+import { Events } from './constants/events';
 
 export class Game {
     private players: Player[];
@@ -25,26 +26,26 @@ export class Game {
     }
 
     private registerMessageHandlers() {
-        this.webSocketClient.onMessage('disconnect', () => {
+        this.webSocketClient.onMessage(Events.disconnect, () => {
             alert('Disconnected from server');
         });
 
         // Retrieve active players list
-        this.webSocketClient.onMessage('playerList', ({ players }: { players: string[] }) => {
+        this.webSocketClient.onMessage(Events.playerList, ({ players }: { players: string[] }) => {
             this.players = this.players.concat(players.map(player => {
                 return new Player(player);
             }));
         });
 
         // A new player has joined
-        this.webSocketClient.onMessage('playerJoin', ({ name }) => {
+        this.webSocketClient.onMessage(Events.playerJoin, ({ name }: { name: string }) => {
             this.players.push(new Player(name));
         });
     }
 
     private sendName() {
         const name = prompt('Enter your name:');
-        this.webSocketClient.emit({ event: 'sendName', payload: { name } });
+        this.webSocketClient.emit({ event: Events.sendName, payload: { name } });
         this.players.push(new Player(name));
     }
 
