@@ -6,6 +6,10 @@ module.exports = function (io) {
         clients.set(id, name);
     };
 
+    const getClients = function () {
+        return Array.from(clients.values());
+    }
+
     const removeClient = function (id) {
         clients.delete(id);
     };
@@ -14,17 +18,20 @@ module.exports = function (io) {
         _io.emit(message, payload);
     }
 
-    const emitToSingleClient = function (message, client) {
-        const dest = clients.get(client.conn.id);
-        if (dest) {
-            _io.clients[dest.id].send(message);
-        }
+    const emitToSingleClient = function (message, payload, client) {
+        _io.sockets.to(client.conn.id).emit(message, payload);
+    }
+
+    const broadcast = function (message, payload, client) {
+        client.broadcast.emit(message, payload);
     }
 
     return {
         addClient: addClient,
+        getClients: getClients,
         removeClient: removeClient,
         emit: emit,
-        emitToSingleClient: emitToSingleClient
+        emitToSingleClient: emitToSingleClient,
+        broadcast: broadcast
     };
 };
