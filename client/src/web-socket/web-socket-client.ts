@@ -15,6 +15,10 @@ export class WebSocketClient {
         });
     }
 
+    requestPlayerList() {
+        this.socket.emit('requestPlayerList');
+    }
+
     emit(message: WebSocketMessage) {
         const { event, playerId, payload } = message;
         this.socket.emit(event, [{ playerId, payload }]);
