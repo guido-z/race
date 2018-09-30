@@ -5,11 +5,18 @@ export class WebSocketClient {
 
     private socket: SocketIOClient.Socket;
 
-    constructor(uri: string) {
-        this.socket = io(uri);
-        this.socket.on('connect_error', () => {
-            throw new Error('Could not connect to server.');
+    constructor(private uri: string) {}
+
+    connect(): Promise<void> {
+        return new Promise((resolve: any, reject: any) => {
+            this.socket = io(this.uri);
+            this.socket.on('connect', resolve);
+            this.socket.on('connect_error', reject);
         });
+    }
+
+    requestPlayerList() {
+        this.socket.emit('requestPlayerList');
     }
 
     emit(message: WebSocketMessage) {
@@ -17,4 +24,7 @@ export class WebSocketClient {
         this.socket.emit(event, [{ playerId, payload }]);
     }
 
+    onMessage(message: string, callback: (message: any) => void) {
+        this.socket.on(message, callback);
+    }
 }

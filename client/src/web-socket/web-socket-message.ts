@@ -1,5 +1,5 @@
 export interface WebSocketMessage {
     event: string;
-    playerId: number;
+    playerId?: number;
     payload: any;
 }
